@@ -33,13 +33,13 @@ void playGame(void) {
 }
 
 // Execute an individual player's turn
-void playTurn(bool player1sTurn) {
+void playTurn(const bool player1sTurn) {
     bool replayTurn;
 
     // Ask the player for their mark until it's valid
     do {
-        int playerNumber = player1sTurn ? 1 : 2;
-        char playerLetter = player1sTurn ? 'X' : 'O';
+        const int playerNumber = player1sTurn ? 1 : 2;
+        const char playerLetter = player1sTurn ? 'X' : 'O';
         int rowNumber;
         int columnNumber;
         
@@ -51,6 +51,7 @@ void playTurn(bool player1sTurn) {
         if (markIsValid(rowNumber, columnNumber)) {
             markBoard(rowNumber, columnNumber, playerLetter);
             printBoard();
+            // Check win...
             replayTurn = false;
         }
         else {
@@ -60,14 +61,14 @@ void playTurn(bool player1sTurn) {
 }
 
 // Determine whether or not the given player's mark is valid
-bool markIsValid(int rowNumber, int columnNumber) {
-    bool rowOutOfBounds = rowNumber > ROW_COUNT;
-    bool columnOutOfBounds = columnNumber > COLUMN_COUNT;
+bool markIsValid(const int rowNumber, const int columnNumber) {
+    const bool rowOutOfBounds = rowNumber > ROW_COUNT;
+    const bool columnOutOfBounds = columnNumber > COLUMN_COUNT;
     // Only evaluate the expression if the row and column indices are in the bounds of the board
-    bool cellAlreadyMarked = (rowOutOfBounds || columnOutOfBounds) ? false : (board[rowNumber - 1][columnNumber - 1] != '_');
-    bool result = !rowOutOfBounds && !columnOutOfBounds && !cellAlreadyMarked;
+    const bool cellAlreadyMarked = (rowOutOfBounds || columnOutOfBounds) ? false : (board[rowNumber - 1][columnNumber - 1] != '_');
+    const bool result = !rowOutOfBounds && !columnOutOfBounds && !cellAlreadyMarked;
 
-    // Print an out-of-bounds error message based on the values of rowOutOfBounds and columnOutOfBounds
+    // Print an out-of-bounds message based on the values of rowOutOfBounds and columnOutOfBounds
     if (rowOutOfBounds && columnOutOfBounds) {
         printInvalidMarkMessage("Your row and column numbers must be from 1-3!");
     }
@@ -88,13 +89,13 @@ bool markIsValid(int rowNumber, int columnNumber) {
 }
 
 // Print some messages to indicate that the current player's mark is invalid
-void printInvalidMarkMessage(char message[]) {
+void printInvalidMarkMessage(const char message[]) {
     printf("\n%s\n", message);
     printf("Please try again.\n\n");
 }
 
 // Mark an individual cell on the board using the given player's mark
-void markBoard(int rowNumber, int columnNumber, char playerLetter) {
+void markBoard(const int rowNumber, const int columnNumber, const char playerLetter) {
     board[rowNumber - 1][columnNumber - 1] = playerLetter;
 }
 
@@ -129,4 +130,22 @@ void printBoard(void) {
     }
 
     printf("\n");
+}
+
+// Determine whether or not the game is unfinished (i.e. the board is not filled up)
+bool notFinished(void) {
+    bool result = false;
+
+    for (int rowIndex = 0; rowIndex < ROW_COUNT; rowIndex++) {
+        for (int columnIndex = 0; columnIndex < COLUMN_COUNT; columnIndex++) {
+            const char cell = board[rowIndex][columnIndex];
+
+            if (cell == '_') {
+                result = true;
+                break;
+            }
+        }
+    }
+
+    return result;
 }

@@ -15,16 +15,19 @@ extern bool gameOver;
 void playGame(void);
 
 // Execute an individual player's turn
-void playTurn(bool player1sTurn);
+void playTurn(const bool player1sTurn);
 
 // Determine whether or not the given player's mark is valid
-bool markIsValid(int rowNumber, int columnNumber);
+bool markIsValid(const int rowNumber, const int columnNumber);
 
 // Print some messages to indicate that the current player's mark is invalid
-void printInvalidMarkMessage(char message[]);
+void printInvalidMarkMessage(const char message[]);
 
 // Mark an individual cell on the board using the given player's mark
-void markBoard(int rowNumber, int columnNumber, char playerLetter);
+void markBoard(const int rowNumber, const int columnNumber, const char playerLetter);
 
 // Print the board's template to display how input should be formatted or the actual board to show the game's state
 void printBoard(void);
+
+// Determine whether or not the game is unfinished (i.e. the board is not filled up)
+bool notFinished(void);
