@@ -18,6 +18,17 @@ char board[3][3] = {
     {'_', '_', '_'},
     {'_', '_', '_'}
 };
+bool gameOver = false;
+
+// Start the game loop
+void playGame(void) {
+    bool player1sTurn = true;
+
+    while (!gameOver) {
+        playTurn(player1sTurn);
+        player1sTurn = !player1sTurn;
+    }
+}
 
 // Execute an individual player's turn
 void playTurn(bool player1sTurn) {

@@ -16,8 +16,7 @@ void printIntroduction(void);
 
 int main(void) {
     printIntroduction();
-    printBoard();
-    playTurn(1);
+    playGame();
 
     return 0;
 }
@@ -31,4 +30,6 @@ void printIntroduction(void) {
     printf("  * Whoever aligns three of their letters in a row, column, or diagonal wins the game.\n\n");
 
     printf("Have fun!\n");
+
+    printBoard();
 }
