@@ -17,6 +17,7 @@ void printIntroduction(void);
 int main(void) {
     printIntroduction();
     printBoard();
+    playTurn(1);
 
     return 0;
 }

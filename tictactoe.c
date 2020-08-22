@@ -19,6 +19,21 @@ char board[3][3] = {
     {'_', '_', '_'}
 };
 
+// Execute an individual player's turn
+void playTurn(bool player1sTurn) {
+    int playerNumber = player1sTurn ? 1 : 2;
+    char playerLetter = player1sTurn ? 'X' : 'O';
+    int rowNumber;
+    int columnNumber;
+    
+    // Get the player's input
+    printf("Player %d, mark a space on the board (row column): ", playerNumber);
+    scanf("%d %d", &rowNumber, &columnNumber);
+
+    markBoard(rowNumber, columnNumber, playerLetter);
+    printBoard();
+}
+
 // Mark an individual cell on the board using the given player's input
 void markBoard(int rowNumber, int columnNumber, char playerLetter) {
     board[rowNumber - 1][columnNumber - 1] = playerLetter;
