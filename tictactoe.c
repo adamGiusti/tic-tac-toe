@@ -24,6 +24,8 @@ bool gameOver = false;
 void playGame(void) {
     bool player1sTurn = true;
 
+    printBoard();
+
     while (!gameOver) {
         playTurn(player1sTurn);
         player1sTurn = !player1sTurn;
@@ -62,25 +64,33 @@ bool markIsValid(int rowNumber, int columnNumber) {
     bool rowOutOfBounds = rowNumber > ROW_COUNT;
     bool columnOutOfBounds = columnNumber > COLUMN_COUNT;
     // Only evaluate the expression if the row and column indices are in the bounds of the board
-    bool cellAlreadyMarked = rowOutOfBounds || columnOutOfBounds ? false : board[rowNumber - 1][columnNumber - 1] != '_';
+    bool cellAlreadyMarked = (rowOutOfBounds || columnOutOfBounds) ? false : (board[rowNumber - 1][columnNumber - 1] != '_');
     bool result = !rowOutOfBounds && !columnOutOfBounds && !cellAlreadyMarked;
 
-    // Only check if the cell is already marked if both the row and column numbers are in bounds
-    if (rowOutOfBounds || columnOutOfBounds) {
-        if (rowOutOfBounds) {
-            printf("\nYou must specify a row number from 1-3!");
-        }
-        if (columnOutOfBounds) {
-            printf("\nYou must specify a column number from 1-3!");
-        }
-
-        printf("\n\n");
+    // Print an out-of-bounds error message based on the values of rowOutOfBounds and columnOutOfBounds
+    if (rowOutOfBounds && columnOutOfBounds) {
+        printInvalidMarkMessage("Your row and column numbers must be from 1-3!");
     }
+    else if (rowOutOfBounds || columnOutOfBounds) {
+        if (rowOutOfBounds) {
+            printInvalidMarkMessage("You must specify a row number from 1-3!");
+        }
+        else if (columnOutOfBounds) {
+            printInvalidMarkMessage("You must specify a column number from 1-3!");
+        }
+    }
+    // Only check if the cell is already marked if both the row and column numbers are in bounds
     else if (cellAlreadyMarked) {
-        printf("\nThat space is already taken up!\n\n");
+        printInvalidMarkMessage("That space is already taken up!");
     }
 
     return result;
+}
+
+// Print some messages to indicate that the current player's mark is invalid
+void printInvalidMarkMessage(char message[]) {
+    printf("\n%s\n", message);
+    printf("Please try again.\n\n");
 }
 
 // Mark an individual cell on the board using the given player's mark

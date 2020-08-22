@@ -20,6 +20,9 @@ void playTurn(bool player1sTurn);
 // Determine whether or not the given player's mark is valid
 bool markIsValid(int rowNumber, int columnNumber);
 
+// Print some messages to indicate that the current player's mark is invalid
+void printInvalidMarkMessage(char message[]);
+
 // Mark an individual cell on the board using the given player's mark
 void markBoard(int rowNumber, int columnNumber, char playerLetter);
 

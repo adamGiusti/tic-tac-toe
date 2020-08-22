@@ -30,6 +30,4 @@ void printIntroduction(void) {
     printf("  * Whoever aligns three of their letters in a row, column, or diagonal wins the game.\n\n");
 
     printf("Have fun!\n");
-
-    printBoard();
 }
