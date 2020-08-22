@@ -13,7 +13,7 @@
 #define ROW_COUNT 3
 #define COLUMN_COUNT 3
 
-char board[3][3] = {
+char board[ROW_COUNT][COLUMN_COUNT] = {
     {'_', '_', '_'},
     {'_', '_', '_'},
     {'_', '_', '_'}
@@ -28,6 +28,8 @@ void playGame(void) {
 
     while (!gameOver) {
         playTurn(player1sTurn);
+
+        // Switch to the other player's turn
         player1sTurn = !player1sTurn;
     }
 }
@@ -140,10 +142,34 @@ bool notFinished(void) {
         for (int columnIndex = 0; columnIndex < COLUMN_COUNT; columnIndex++) {
             const char cell = board[rowIndex][columnIndex];
 
+            // If there's an empty cell, don't bother checking the rest of them
             if (cell == '_') {
                 result = true;
                 break;
             }
+        }
+    }
+
+    return result;
+}
+
+// Determine whether or not the current player's move has caused a row win
+bool rowWin(void) {
+    bool result = false;
+
+    for (int rowIndex = 0; rowIndex < ROW_COUNT; rowIndex++) {
+        char row[ROW_COUNT];
+        bool rowIsEqual;
+
+        for (int columnIndex = 0; columnIndex < COLUMN_COUNT; columnIndex++) {
+            const char cell = board[rowIndex][columnIndex];
+            row[columnIndex] = cell;
+        }
+
+        rowIsEqual = (row[0] == row[1]) && (row[0] == row[2]);
+        if (rowIsEqual) {
+            result = true;
+            break;
         }
     }
 

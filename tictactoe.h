@@ -31,3 +31,6 @@ void printBoard(void);
 
 // Determine whether or not the game is unfinished (i.e. the board is not filled up)
 bool notFinished(void);
+
+// Determine whether or not the current player's move has caused a row win
+bool rowWin(void);
