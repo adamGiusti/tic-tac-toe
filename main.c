@@ -6,7 +6,7 @@
         * Invokes the game loop
 
     Date Created: August 20, 2020
-    Last Updated: August 20, 2020
+    Last Updated: August 22, 2020
 */
 
 #include <stdio.h>
