@@ -34,3 +34,6 @@ bool notFinished(void);
 
 // Determine whether or not the current player's move has caused a row win
 bool rowWin(void);
+
+// Determine whether or not the current player's move has caused a column win
+bool columnWin(void);

@@ -175,3 +175,26 @@ bool rowWin(void) {
 
     return result;
 }
+
+// Determine whether or not the current player's move has caused a column win
+bool columnWin(void) {
+    bool result = false;
+
+    for (int columnIndex = 0; columnIndex < COLUMN_COUNT; columnIndex++) {
+        char column[COLUMN_COUNT];
+        bool columnIsEqual;
+
+        for (int rowIndex = 0; rowIndex < ROW_COUNT; rowIndex++) {
+            const char cell = board[columnIndex][rowIndex];
+            column[rowIndex] = cell;
+        }
+
+        columnIsEqual = (column[0] == column[1]) && (column[0] == column[2]);
+        if (columnIsEqual) {
+            result = true;
+            break;
+        }
+    }
+
+    return result;
+}
