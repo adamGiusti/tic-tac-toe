@@ -17,7 +17,7 @@ void playGame(void);
 // Execute an individual player's turn
 void playTurn(const bool player1sTurn);
 
-// Determine whether or not the given player's mark is valid
+// Return whether or not the given player's mark is valid
 bool markIsValid(const int rowNumber, const int columnNumber);
 
 // Print some messages to indicate that the current player's mark is invalid
@@ -29,14 +29,17 @@ void markBoard(const int rowNumber, const int columnNumber, const char playerLet
 // Print the board's template to display how input should be formatted or the actual board to show the game's state
 void printBoard(void);
 
-// Determine whether or not the game is unfinished (i.e. the board is not filled up)
-bool notFinished(void);
+// Check if the given player has won in any way
+void checkWin(const int playerNumber, const char playerLetter);
 
-// Determine whether or not the current player's move has caused a row win
+// Return whether or not the current player's move has caused a row win
 bool rowWin(void);
 
-// Determine whether or not the current player's move has caused a column win
+// Return whether or not the current player's move has caused a column win
 bool columnWin(void);
 
-// Determine whether or not the current player's move has caused a diagonal win
+// Return whether or not the current player's move has caused a diagonal win
 bool diagonalWin(void);
+
+// Return whether or not the board is filled up
+bool boardIsFilled(void);

@@ -53,7 +53,8 @@ void playTurn(const bool player1sTurn) {
         if (markIsValid(rowNumber, columnNumber)) {
             markBoard(rowNumber, columnNumber, playerLetter);
             printBoard();
-            // Check win...
+            checkWin(playerNumber, playerLetter);
+
             replayTurn = false;
         }
         else {
@@ -62,7 +63,7 @@ void playTurn(const bool player1sTurn) {
     } while (replayTurn);
 }
 
-// Determine whether or not the given player's mark is valid
+// Return whether or not the given player's mark is valid
 bool markIsValid(const int rowNumber, const int columnNumber) {
     const bool rowOutOfBounds = rowNumber > ROW_COUNT;
     const bool columnOutOfBounds = columnNumber > COLUMN_COUNT;
@@ -134,26 +135,28 @@ void printBoard(void) {
     printf("\n");
 }
 
-// Determine whether or not the game is unfinished (i.e. the board is not filled up)
-bool notFinished(void) {
-    bool result = false;
-
-    for (int rowIndex = 0; rowIndex < ROW_COUNT; rowIndex++) {
-        for (int columnIndex = 0; columnIndex < COLUMN_COUNT; columnIndex++) {
-            const char cell = board[rowIndex][columnIndex];
-
-            // If there's an empty cell, don't bother checking the rest of them
-            if (cell == '_') {
-                result = true;
-                break;
-            }
-        }
+// Check if the given player has won in any way
+void checkWin(const int playerNumber, const char playerLetter) {
+    if (rowWin()) {
+        printf("Congratulations, Player %d! You won the game by placing three %c's in a row.\n\n", playerNumber, playerLetter);
+        gameOver = true;
     }
-
-    return result;
+    else if (columnWin()) {
+        printf("Congratulations, Player %d! You won the game by placing three %c's in a column.\n\n", playerNumber, playerLetter);
+        gameOver = true;
+    }
+    else if (diagonalWin()) {
+        printf("Congratulations, Player %d! You won the game by placing three %c's in a diagonal.\n\n", playerNumber, playerLetter);
+        gameOver = true;
+    }
+    // If the board is filled up and nobody won, the result must be a draw
+    else if (boardIsFilled()) {
+        printf("Draw. Neither player wins.\n\n");
+        gameOver = true;
+    }
 }
 
-// Determine whether or not the current player's move has caused a row win
+// Return whether or not the current player's move has caused a row win
 bool rowWin(void) {
     bool result = false;
 
@@ -166,7 +169,9 @@ bool rowWin(void) {
             row[columnIndex] = cell;
         }
 
-        rowIsEqual = (row[0] == row[1]) && (row[0] == row[2]);
+        // The cells shouldn't be considered equal if they are empty
+        rowIsEqual = (row[0] != '_') && (row[0] == row[1]) && (row[0] == row[2]);
+
         if (rowIsEqual) {
             result = true;
             break;
@@ -176,7 +181,7 @@ bool rowWin(void) {
     return result;
 }
 
-// Determine whether or not the current player's move has caused a column win
+// Return whether or not the current player's move has caused a column win
 bool columnWin(void) {
     bool result = false;
 
@@ -185,11 +190,13 @@ bool columnWin(void) {
         bool columnIsEqual;
 
         for (int rowIndex = 0; rowIndex < ROW_COUNT; rowIndex++) {
-            const char cell = board[columnIndex][rowIndex];
+            const char cell = board[rowIndex][columnIndex];
             column[rowIndex] = cell;
         }
 
-        columnIsEqual = (column[0] == column[1]) && (column[0] == column[2]);
+        // The cells shouldn't be considered equal if they are empty
+        columnIsEqual = (column[0] != '_') && (column[0] == column[1]) && (column[0] == column[2]);
+
         if (columnIsEqual) {
             result = true;
             break;
@@ -199,7 +206,7 @@ bool columnWin(void) {
     return result;
 }
 
-// Determine whether or not the current player's move has caused a diagonal win
+// Return whether or not the current player's move has caused a diagonal win
 bool diagonalWin(void) {
     char mainDiagonal[ROW_COUNT];
     char crossDiagonal[ROW_COUNT];
@@ -215,9 +222,30 @@ bool diagonalWin(void) {
         crossDiagonal[rowIndex] = crossCell;
     }
 
-    mainDiagonalIsEqual = (mainDiagonal[0] == mainDiagonal[1]) && (mainDiagonal[0] == mainDiagonal[2]);
-    crossDiagonalIsEqual = (crossDiagonal[0] == crossDiagonal[1]) && (crossDiagonal[0] == crossDiagonal[2]);
+    // The cells shouldn't be considered equal if they are empty
+    mainDiagonalIsEqual = (mainDiagonal[0] != '_') && (mainDiagonal[0] == mainDiagonal[1]) && (mainDiagonal[0] == mainDiagonal[2]);
+    crossDiagonalIsEqual = (crossDiagonal[0] != '_') && (crossDiagonal[0] == crossDiagonal[1]) && (crossDiagonal[0] == crossDiagonal[2]);
+
     result = mainDiagonalIsEqual || crossDiagonalIsEqual;
+
+    return result;
+}
+
+// Return whether or not the board is filled up
+bool boardIsFilled(void) {
+    bool result = true;
+
+    for (int rowIndex = 0; rowIndex < ROW_COUNT; rowIndex++) {
+        for (int columnIndex = 0; columnIndex < COLUMN_COUNT; columnIndex++) {
+            const char cell = board[rowIndex][columnIndex];
+
+            // If there's an empty cell, don't bother checking the rest of them
+            if (cell == '_') {
+                result = false;
+                break;
+            }
+        }
+    }
 
     return result;
 }
