@@ -37,3 +37,6 @@ bool rowWin(void);
 
 // Determine whether or not the current player's move has caused a column win
 bool columnWin(void);
+
+// Determine whether or not the current player's move has caused a diagonal win
+bool diagonalWin(void);

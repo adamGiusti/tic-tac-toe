@@ -198,3 +198,26 @@ bool columnWin(void) {
 
     return result;
 }
+
+// Determine whether or not the current player's move has caused a diagonal win
+bool diagonalWin(void) {
+    char mainDiagonal[ROW_COUNT];
+    char crossDiagonal[ROW_COUNT];
+    bool mainDiagonalIsEqual;
+    bool crossDiagonalIsEqual;
+    bool result;
+
+    for (int rowIndex = 0, crossColumnIndex = COLUMN_COUNT - 1; rowIndex < ROW_COUNT; rowIndex++, crossColumnIndex--) {
+        const char mainCell = board[rowIndex][rowIndex];
+        const char crossCell = board[rowIndex][crossColumnIndex];
+
+        mainDiagonal[rowIndex] = mainCell;
+        crossDiagonal[rowIndex] = crossCell;
+    }
+
+    mainDiagonalIsEqual = (mainDiagonal[0] == mainDiagonal[1]) && (mainDiagonal[0] == mainDiagonal[2]);
+    crossDiagonalIsEqual = (crossDiagonal[0] == crossDiagonal[1]) && (crossDiagonal[0] == crossDiagonal[2]);
+    result = mainDiagonalIsEqual || crossDiagonalIsEqual;
+
+    return result;
+}
