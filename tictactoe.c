@@ -3,7 +3,7 @@
     Purpose: Implement the various functions necessary to play the game.
 
     Date Created: August 20, 2020
-    Last Updated: August 22, 2020
+    Last Updated: August 24, 2020
 */
 
 #include <stdio.h>
@@ -248,4 +248,17 @@ bool boardIsFilled(void) {
     }
 
     return result;
+}
+
+// Reset the game's elements, such as the board, when the game is replayed
+void resetGame(void) {
+    // Clear the board
+    for (int rowIndex = 0; rowIndex < ROW_COUNT; rowIndex++) {
+        for (int columnIndex = 0; columnIndex < COLUMN_COUNT; columnIndex++) {
+            board[rowIndex][columnIndex] = '_';
+        }
+    }
+
+    // Restart the game loop
+    playGame();
 }

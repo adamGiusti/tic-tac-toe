@@ -3,7 +3,7 @@
     Purpose: Declare the various variables and functions necessary to play the game.
 
     Date Created: August 20, 2020
-    Last Updated: August 22, 2020
+    Last Updated: August 24, 2020
 */
 
 #include <stdbool.h>
@@ -43,3 +43,6 @@ bool diagonalWin(void);
 
 // Return whether or not the board is filled up
 bool boardIsFilled(void);
+
+// Reset the game's elements, such as the board, when the game is replayed
+void resetGame(void);
