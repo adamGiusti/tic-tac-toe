@@ -8,6 +8,7 @@
 
 #include <stdio.h>
 #include <stdbool.h>
+#include <ctype.h>
 #include "tictactoe.h"
 
 #define ROW_COUNT 3
@@ -248,6 +249,34 @@ bool boardIsFilled(void) {
     }
 
     return result;
+}
+
+// Ask the player who lost if they want a rematch
+void promptRematch(const int playerNumber) {
+    int loserPlayerNumber = playerNumber == 1 ? 2 : 1;
+    char answer;
+    bool answerIsValid;
+
+    do {
+        // Get the player's answer and convert it to lowercase so that mixed cases aren't compared
+        printf("Player %d, would you like a rematch (y/n)?: ", loserPlayerNumber);
+        scanf(" %c", &answer);
+        answer = tolower(answer);
+
+        // Test the validity of the answer
+        answerIsValid = (answer == 'y') || (answer == 'n');
+        if (!answerIsValid) {
+            printf("\nYou must enter 'y' for yes or 'n' for no.\n");
+            printf("Please try again.\n\n");
+        }
+        // Reset or end the game based on the answer
+        else if (answer == 'y') {
+            resetGame();
+        }
+        else if (answer == 'n') {
+            gameOver = true;
+        }
+    } while (!answerIsValid);
 }
 
 // Reset the game's elements, such as the board, when the game is replayed

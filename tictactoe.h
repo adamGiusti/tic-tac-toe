@@ -44,5 +44,8 @@ bool diagonalWin(void);
 // Return whether or not the board is filled up
 bool boardIsFilled(void);
 
+// Ask the player who lost if they want a rematch
+void promptRematch(const int playerNumber);
+
 // Reset the game's elements, such as the board, when the game is replayed
 void resetGame(void);
