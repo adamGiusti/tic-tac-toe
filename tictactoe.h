@@ -44,6 +44,9 @@ bool diagonalWin(void);
 // Return whether or not the board is filled up
 bool boardIsFilled(void);
 
+// Print the result of the game and invoke promptRematch()
+void endGame(const int playerNumber, const char playerLetter, const char winType[]);
+
 // Ask the player who lost if they want a rematch
 void promptRematch(const int playerNumber);
 

@@ -8,6 +8,7 @@
 
 #include <stdio.h>
 #include <stdbool.h>
+#include <string.h>
 #include <ctype.h>
 #include "tictactoe.h"
 
@@ -139,21 +140,17 @@ void printBoard(void) {
 // Check if the given player has won in any way
 void checkWin(const int playerNumber, const char playerLetter) {
     if (rowWin()) {
-        printf("Congratulations, Player %d! You won the game by placing three %c's in a row.\n\n", playerNumber, playerLetter);
-        gameOver = true;
+        endGame(playerNumber, playerLetter, "row");
     }
     else if (columnWin()) {
-        printf("Congratulations, Player %d! You won the game by placing three %c's in a column.\n\n", playerNumber, playerLetter);
-        gameOver = true;
+        endGame(playerNumber, playerLetter, "column");
     }
     else if (diagonalWin()) {
-        printf("Congratulations, Player %d! You won the game by placing three %c's in a diagonal.\n\n", playerNumber, playerLetter);
-        gameOver = true;
+        endGame(playerNumber, playerLetter, "diagonal");
     }
     // If the board is filled up and nobody won, the result must be a draw
     else if (boardIsFilled()) {
-        printf("Draw. Neither player wins.\n\n");
-        gameOver = true;
+        endGame(playerNumber, playerLetter, "draw");
     }
 }
 
@@ -251,9 +248,24 @@ bool boardIsFilled(void) {
     return result;
 }
 
+// Print the result of the game and invoke promptRematch()
+void endGame(const int playerNumber, const char playerLetter, const char winType[]) {
+    // If the result is a draw, the outputted message should be formatted differently
+    if (strcmp(winType, "draw") == 0) {
+        printf("Draw. Neither player wins.");
+    }
+    else {
+        printf("Congratulations, Player %d! You won the game by placing three %c's in a %s.", playerNumber, playerLetter, winType);
+    }
+    printf("\n\n");
+
+    // Determine if the program's execution should end or continue with another match
+    promptRematch(playerNumber);
+}
+
 // Ask the player who lost if they want a rematch
 void promptRematch(const int playerNumber) {
-    int loserPlayerNumber = playerNumber == 1 ? 2 : 1;
+    const int loserPlayerNumber = playerNumber == 1 ? 2 : 1;
     char answer;
     bool answerIsValid;
 
@@ -275,6 +287,7 @@ void promptRematch(const int playerNumber) {
         }
         else if (answer == 'n') {
             gameOver = true;
+            printf("\n");
         }
     } while (!answerIsValid);
 }
